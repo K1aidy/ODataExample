@@ -13,8 +13,6 @@ namespace ODataExample.Context.Entity
 		public string Inn { get; set; }
 		[Column("cityid")]
 		public int CityId { get; set; }
-		[NotMapped]
-		public string CityName => City?.CityName ?? string.Empty;
 
 		[ForeignKey(nameof(CityId))]
 		public virtual City City { get; set; }

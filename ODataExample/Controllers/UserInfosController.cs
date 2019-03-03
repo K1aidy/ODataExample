@@ -1,15 +1,13 @@
 ﻿using System;
 using System.Linq;
 using Microsoft.AspNet.OData;
-using Microsoft.AspNet.OData.Query;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using ODataExample.Context;
 using ODataExample.Context.Entity;
+using Microsoft.AspNet.OData.Routing;
 
 namespace ODataExample.Controllers
 {
-	//[EnableQuery]
+	[ODataRoutePrefix("UserInfos")]
 	public class UserInfosController : ODataController
 	{
 		private readonly ApiContext apiContext;
@@ -20,13 +18,8 @@ namespace ODataExample.Controllers
 				throw new ArgumentNullException(nameof(apiContext));
 		}
 
-		[HttpGet]
-		public IQueryable Get(ODataQueryOptions<UserInfo> options)
-		{
-			var userInfos = apiContext.UserInfos
-				.Include(ui => ui.City);
-
-			return options.ApplyTo(userInfos);
-		}
+		[EnableQuery]
+		public IQueryable<UserInfo> Get() =>
+			apiContext.UserInfos;
 	}
 }
